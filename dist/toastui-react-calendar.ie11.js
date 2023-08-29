@@ -18855,7 +18855,8 @@ var __publicField = (obj, key, value) => {
               overflow: "hidden",
               height: eventHeight,
               lineHeight: "24px",
-              opacity: isDraggingTarget ? 0.5 : 1
+              opacity: isDraggingTarget ? 0.5 : 1,
+              border: exceedLeft ? "none" : "1px solid ".concat(borderColor)
             };
             var margins = getMargins(flat);
             return flat ? horizontalEvent_objectSpread({
@@ -19004,7 +19005,7 @@ var __publicField = (obj, key, value) => {
               className: classNames.eventBody,
               style: horizontalEvent_objectSpread(horizontalEvent_objectSpread({}, eventItemStyle), {}, {
                 backgroundColor: isDotEvent ? null : eventItemStyle.backgroundColor,
-                borderLeft: isDotEvent ? null : eventItemStyle.borderLeft
+                border: isDotEvent ? null : eventItemStyle.border
               }),
               onMouseDown: handleMoveStart
             }, isDotEvent ? h("span", {

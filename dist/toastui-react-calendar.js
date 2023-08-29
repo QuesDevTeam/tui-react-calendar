@@ -10680,7 +10680,8 @@ var __publicField = (obj, key, value) => {
       overflow: "hidden",
       height: eventHeight,
       lineHeight: "24px",
-      opacity: isDraggingTarget ? 0.5 : 1
+      opacity: isDraggingTarget ? 0.5 : 1,
+      border: exceedLeft ? "none" : `1px solid ${borderColor}`
     };
     const margins = getMargins(flat);
     return flat ? __spreadValues({
@@ -10827,7 +10828,7 @@ var __publicField = (obj, key, value) => {
       className: classNames$k.eventBody,
       style: __spreadProps(__spreadValues({}, eventItemStyle), {
         backgroundColor: isDotEvent ? null : eventItemStyle.backgroundColor,
-        borderLeft: isDotEvent ? null : eventItemStyle.borderLeft
+        border: isDotEvent ? null : eventItemStyle.border
       }),
       onMouseDown: handleMoveStart
     }, isDotEvent ? /* @__PURE__ */ h$3("span", {
