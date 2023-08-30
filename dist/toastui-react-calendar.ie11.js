@@ -5076,7 +5076,7 @@ var __publicField = (obj, key, value) => {
   }
   /*!
    * TOAST UI Calendar 2nd Edition
-   * @version 2.1.3 | Tue Aug 29 2023
+   * @version 2.1.3 | Thu Aug 31 2023
    * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
    * @license MIT
    */
@@ -15836,7 +15836,8 @@ var __publicField = (obj, key, value) => {
               narrowWeekend: false,
               startDayOfWeek: Day.SUN,
               isAlways6Weeks: true,
-              visibleEventCount: 6
+              visibleEventCount: 6,
+              isOneEventCalendar: false
             }, monthOptions);
             if (month.dayNames.length === 0) {
               month.dayNames = DEFAULT_DAY_NAMES.slice();
@@ -18892,7 +18893,7 @@ var __publicField = (obj, key, value) => {
             resizeEvent: cls("dragging--resize-horizontal-event")
           };
           function HorizontalEvent(_ref4) {
-            var _ref4$flat = _ref4.flat, flat = _ref4$flat === void 0 ? false : _ref4$flat, uiModel = _ref4.uiModel, eventHeight = _ref4.eventHeight, headerHeight = _ref4.headerHeight, _ref4$resizingWidth = _ref4.resizingWidth, resizingWidth = _ref4$resizingWidth === void 0 ? null : _ref4$resizingWidth, _ref4$movingLeft = _ref4.movingLeft, movingLeft = _ref4$movingLeft === void 0 ? null : _ref4$movingLeft;
+            var _ref4$flat = _ref4.flat, flat = _ref4$flat === void 0 ? false : _ref4$flat, uiModel = _ref4.uiModel, eventHeight = _ref4.eventHeight, headerHeight = _ref4.headerHeight, _ref4$resizingWidth = _ref4.resizingWidth, resizingWidth = _ref4$resizingWidth === void 0 ? null : _ref4$resizingWidth, _ref4$movingLeft = _ref4.movingLeft, movingLeft = _ref4$movingLeft === void 0 ? null : _ref4$movingLeft, _ref4$isOneEventCalen = _ref4.isOneEventCalendar, isOneEventCalendar = _ref4$isOneEventCalen === void 0 ? false : _ref4$isOneEventCalen;
             var _useStore = useStore(viewSelector), currentView = _useStore.currentView;
             var _useStore2 = useStore(optionsSelector), useDetailPopup = _useStore2.useDetailPopup, isReadOnlyCalendar = _useStore2.isReadOnly;
             var _useDispatch = useDispatch("dnd"), setDraggingEventUIModel = _useDispatch.setDraggingEventUIModel;
@@ -18996,14 +18997,21 @@ var __publicField = (obj, key, value) => {
                 "weekday-exceed-left": uiModel.exceedLeft,
                 "weekday-exceed-right": uiModel.exceedRight
               }),
-              style: containerStyle,
+              style: horizontalEvent_objectSpread(horizontalEvent_objectSpread({}, containerStyle), {}, {
+                height: isOneEventCalendar ? "calc(100% - 1px)" : "unset",
+                top: isOneEventCalendar ? 1 : containerStyle.top
+              }),
               "data-testid": passConditionalProp(isDraggableEvent2, getTestId(uiModel)),
               "data-calendar-id": calendarId,
               "data-event-id": id,
               ref: eventContainerRef
             }, h("div", {
               className: classNames.eventBody,
-              style: horizontalEvent_objectSpread(horizontalEvent_objectSpread({}, eventItemStyle), {}, {
+              style: isOneEventCalendar ? {
+                height: "100%",
+                border: "none",
+                backgroundColor: eventItemStyle.backgroundColor
+              } : horizontalEvent_objectSpread(horizontalEvent_objectSpread({}, eventItemStyle), {}, {
                 backgroundColor: isDotEvent ? null : eventItemStyle.backgroundColor,
                 border: isDotEvent ? null : eventItemStyle.border
               }),
@@ -24498,7 +24506,7 @@ var __publicField = (obj, key, value) => {
             return theme.month.weekend.backgroundColor;
           }
           function gridCell_GridCell(_ref3) {
-            var date2 = _ref3.date, _ref3$events = _ref3.events, events = _ref3$events === void 0 ? [] : _ref3$events, style = _ref3.style, parentContainer = _ref3.parentContainer, contentAreaHeight = _ref3.contentAreaHeight;
+            var date2 = _ref3.date, _ref3$events = _ref3.events, events = _ref3$events === void 0 ? [] : _ref3$events, style = _ref3.style, parentContainer = _ref3.parentContainer, contentAreaHeight = _ref3.contentAreaHeight, isOneEventCalendar = _ref3.isOneEventCalendar;
             var layoutContainer = useLayoutContainer();
             var _useDispatch = useDispatch("popup"), showSeeMorePopup = _useDispatch.showSeeMorePopup;
             var backgroundColor = useTheme(weekendBackgroundColorSelector);
@@ -24512,9 +24520,10 @@ var __publicField = (obj, key, value) => {
                 });
               }
             }, [date2, events, popupPosition, showSeeMorePopup]);
-            var exceedCount = getExceedCount(events, contentAreaHeight, MONTH_EVENT_HEIGHT + MONTH_EVENT_MARGIN_TOP);
+            var monthEventHeight = isOneEventCalendar ? 0 : MONTH_EVENT_HEIGHT;
+            var exceedCount = getExceedCount(events, contentAreaHeight, monthEventHeight + MONTH_EVENT_MARGIN_TOP);
             return h("div", {
-              className: cls("daygrid-cell"),
+              className: "".concat(cls("daygrid-cell"), " ").concat(isOneEventCalendar ? cls("daygrid-cell-custom-disabled") : ""),
               style: gridCell_objectSpread(gridCell_objectSpread({}, style), {}, {
                 backgroundColor: isWeekend(date2.getDay()) ? backgroundColor : "inherit"
               }),
@@ -24591,7 +24600,7 @@ var __publicField = (obj, key, value) => {
               return arr;
           }
           var GridRow = compat_module_g(function GridRow2(_ref) {
-            var week = _ref.week, rowInfo = _ref.rowInfo, _ref$gridDateEventMod = _ref.gridDateEventModelMap, gridDateEventModelMap = _ref$gridDateEventMod === void 0 ? {} : _ref$gridDateEventMod, contentAreaHeight = _ref.contentAreaHeight;
+            var week = _ref.week, rowInfo = _ref.rowInfo, _ref$gridDateEventMod = _ref.gridDateEventModelMap, gridDateEventModelMap = _ref$gridDateEventMod === void 0 ? {} : _ref$gridDateEventMod, contentAreaHeight = _ref.contentAreaHeight, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend;
             var _useDOMNode = useDOMNode(), _useDOMNode2 = gridRow_slicedToArray(_useDOMNode, 2), container = _useDOMNode2[0], containerRefCallback = _useDOMNode2[1];
             var border = useTheme(hooks_module_T(function(theme) {
               return theme.common.border;
@@ -24615,7 +24624,8 @@ var __publicField = (obj, key, value) => {
                 },
                 parentContainer: container,
                 events: gridDateEventModelMap[ymd],
-                contentAreaHeight
+                contentAreaHeight,
+                isOneEventCalendar
               });
             }));
           });
@@ -24635,18 +24645,23 @@ var __publicField = (obj, key, value) => {
             });
           }
           var MonthEvents = compat_module_g(function MonthEvents2(_ref) {
-            var contentAreaHeight = _ref.contentAreaHeight, _ref$eventHeight = _ref.eventHeight, eventHeight = _ref$eventHeight === void 0 ? EVENT_HEIGHT : _ref$eventHeight, events = _ref.events, name = _ref.name, className2 = _ref.className;
+            var contentAreaHeight = _ref.contentAreaHeight, _ref$eventHeight = _ref.eventHeight, eventHeight = _ref$eventHeight === void 0 ? EVENT_HEIGHT : _ref$eventHeight, events = _ref.events, name = _ref.name, className2 = _ref.className, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend;
             var _useTheme = useTheme(monthGridCellSelector), headerHeight = _useTheme.headerHeight;
-            var dayEvents = events.filter(isWithinHeight(contentAreaHeight, eventHeight + MONTH_EVENT_MARGIN_TOP)).map(function(uiModel) {
+            var parsedEventHeight = isOneEventCalendar ? 0 : eventHeight;
+            var dayEvents = events.filter(isWithinHeight(contentAreaHeight, parsedEventHeight + MONTH_EVENT_MARGIN_TOP)).map(function(uiModel) {
               return h(HorizontalEvent, {
                 key: "".concat(name, "-DayEvent-").concat(uiModel.cid()),
                 uiModel,
                 eventHeight,
-                headerHeight: headerHeight !== null && headerHeight !== void 0 ? headerHeight : MONTH_CELL_BAR_HEIGHT
+                headerHeight: headerHeight !== null && headerHeight !== void 0 ? headerHeight : MONTH_CELL_BAR_HEIGHT,
+                isOneEventCalendar
               });
             });
             return h("div", {
-              className: className2
+              className: className2,
+              style: isOneEventCalendar ? {
+                height: "100%"
+              } : {}
             }, dayEvents);
           });
           function useDayGridMonthEventMove_slicedToArray(arr, i) {
@@ -25093,7 +25108,7 @@ var __publicField = (obj, key, value) => {
             };
           }
           function DayGridMonth(_ref) {
-            var _ref$dateMatrix = _ref.dateMatrix, dateMatrix = _ref$dateMatrix === void 0 ? [] : _ref$dateMatrix, _ref$rowInfo = _ref.rowInfo, rowInfo = _ref$rowInfo === void 0 ? [] : _ref$rowInfo, _ref$cellWidthMap = _ref.cellWidthMap, cellWidthMap = _ref$cellWidthMap === void 0 ? [] : _ref$cellWidthMap;
+            var _ref$dateMatrix = _ref.dateMatrix, dateMatrix = _ref$dateMatrix === void 0 ? [] : _ref$dateMatrix, _ref$rowInfo = _ref.rowInfo, rowInfo = _ref$rowInfo === void 0 ? [] : _ref$rowInfo, _ref$cellWidthMap = _ref.cellWidthMap, cellWidthMap = _ref$cellWidthMap === void 0 ? [] : _ref$cellWidthMap, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend;
             var _useDOMNode = useDOMNode(), _useDOMNode2 = dayGridMonth_slicedToArray(_useDOMNode, 2), gridContainer = _useDOMNode2[0], setGridContainerRef = _useDOMNode2[1];
             var calendar = useStore(calendarSelector);
             var _useCellContentAreaHe = useCellContentAreaHeight(MONTH_EVENT_HEIGHT), ref = _useCellContentAreaHe.ref, cellContentAreaHeight = _useCellContentAreaHe.cellContentAreaHeight;
@@ -25141,13 +25156,15 @@ var __publicField = (obj, key, value) => {
                 gridDateEventModelMap,
                 week,
                 rowInfo,
-                contentAreaHeight: cellContentAreaHeight
+                contentAreaHeight: cellContentAreaHeight,
+                isOneEventCalendar
               }), h(MonthEvents, {
                 name: "month",
                 events: uiModels,
                 contentAreaHeight: cellContentAreaHeight,
                 eventHeight: MONTH_EVENT_HEIGHT,
-                className: cls("weekday-events")
+                className: cls("weekday-events"),
+                isOneEventCalendar
               }), h(GridSelectionByRow, {
                 weekDates: week,
                 narrowWeekend,
@@ -25276,7 +25293,8 @@ var __publicField = (obj, key, value) => {
             }), h(DayGridMonth, {
               dateMatrix,
               rowInfo,
-              cellWidthMap
+              cellWidthMap,
+              isOneEventCalendar: monthOptions.isOneEventCalendar
             }));
           }
           function view_week_slicedToArray(arr, i) {

@@ -7601,7 +7601,8 @@ function initializeMonthOptions(monthOptions = {}) {
     narrowWeekend: false,
     startDayOfWeek: Day$2.SUN,
     isAlways6Weeks: true,
-    visibleEventCount: 6
+    visibleEventCount: 6,
+    isOneEventCalendar: false
   }, monthOptions);
   if (month.dayNames.length === 0) {
     month.dayNames = DEFAULT_DAY_NAMES.slice();
@@ -10720,7 +10721,8 @@ function HorizontalEvent({
   eventHeight,
   headerHeight,
   resizingWidth = null,
-  movingLeft = null
+  movingLeft = null,
+  isOneEventCalendar = false
 }) {
   const { currentView } = useStore(viewSelector);
   const { useDetailPopup, isReadOnly: isReadOnlyCalendar } = useStore(optionsSelector);
@@ -10812,14 +10814,21 @@ function HorizontalEvent({
       "weekday-exceed-left": uiModel.exceedLeft,
       "weekday-exceed-right": uiModel.exceedRight
     }),
-    style: containerStyle,
+    style: __spreadProps(__spreadValues({}, containerStyle), {
+      height: isOneEventCalendar ? "calc(100% - 1px)" : "unset",
+      top: isOneEventCalendar ? 1 : containerStyle.top
+    }),
     "data-testid": passConditionalProp(isDraggableEvent2, getTestId(uiModel)),
     "data-calendar-id": calendarId,
     "data-event-id": id,
     ref: eventContainerRef
   }, /* @__PURE__ */ h$3("div", {
     className: classNames$k.eventBody,
-    style: __spreadProps(__spreadValues({}, eventItemStyle), {
+    style: isOneEventCalendar ? {
+      height: "100%",
+      border: "none",
+      backgroundColor: eventItemStyle.backgroundColor
+    } : __spreadProps(__spreadValues({}, eventItemStyle), {
       backgroundColor: isDotEvent ? null : eventItemStyle.backgroundColor,
       border: isDotEvent ? null : eventItemStyle.border
     }),
@@ -14214,7 +14223,14 @@ function usePopupPosition(eventLength, parentContainer, layoutContainer) {
 function weekendBackgroundColorSelector(theme) {
   return theme.month.weekend.backgroundColor;
 }
-function GridCell({ date: date2, events = [], style, parentContainer, contentAreaHeight }) {
+function GridCell({
+  date: date2,
+  events = [],
+  style,
+  parentContainer,
+  contentAreaHeight,
+  isOneEventCalendar
+}) {
   const layoutContainer = useLayoutContainer();
   const { showSeeMorePopup } = useDispatch("popup");
   const backgroundColor = useTheme(weekendBackgroundColorSelector);
@@ -14228,9 +14244,10 @@ function GridCell({ date: date2, events = [], style, parentContainer, contentAre
       });
     }
   }, [date2, events, popupPosition, showSeeMorePopup]);
-  const exceedCount = getExceedCount(events, contentAreaHeight, MONTH_EVENT_HEIGHT + MONTH_EVENT_MARGIN_TOP);
+  const monthEventHeight = isOneEventCalendar ? 0 : MONTH_EVENT_HEIGHT;
+  const exceedCount = getExceedCount(events, contentAreaHeight, monthEventHeight + MONTH_EVENT_MARGIN_TOP);
   return /* @__PURE__ */ h$3("div", {
-    className: cls("daygrid-cell"),
+    className: `${cls("daygrid-cell")} ${isOneEventCalendar ? cls("daygrid-cell-custom-disabled") : ""}`,
     style: __spreadProps(__spreadValues({}, style), { backgroundColor: isWeekend(date2.getDay()) ? backgroundColor : "inherit" }),
     ref: containerRefCallback
   }, /* @__PURE__ */ h$3(CellHeader, {
@@ -14249,7 +14266,8 @@ const GridRow = g$1(function GridRow2({
   week,
   rowInfo,
   gridDateEventModelMap = {},
-  contentAreaHeight
+  contentAreaHeight,
+  isOneEventCalendar = false
 }) {
   const [container, containerRefCallback] = useDOMNode();
   const border = useTheme(T$1((theme) => theme.common.border, []));
@@ -14270,7 +14288,8 @@ const GridRow = g$1(function GridRow2({
       },
       parentContainer: container,
       events: gridDateEventModelMap[ymd],
-      contentAreaHeight
+      contentAreaHeight,
+      isOneEventCalendar
     });
   }));
 });
@@ -14291,17 +14310,21 @@ const MonthEvents = g$1(function MonthEvents2({
   eventHeight = EVENT_HEIGHT,
   events,
   name,
-  className: className2
+  className: className2,
+  isOneEventCalendar = false
 }) {
   const { headerHeight } = useTheme(monthGridCellSelector);
-  const dayEvents = events.filter(isWithinHeight(contentAreaHeight, eventHeight + MONTH_EVENT_MARGIN_TOP)).map((uiModel) => /* @__PURE__ */ h$3(HorizontalEvent, {
+  const parsedEventHeight = isOneEventCalendar ? 0 : eventHeight;
+  const dayEvents = events.filter(isWithinHeight(contentAreaHeight, parsedEventHeight + MONTH_EVENT_MARGIN_TOP)).map((uiModel) => /* @__PURE__ */ h$3(HorizontalEvent, {
     key: `${name}-DayEvent-${uiModel.cid()}`,
     uiModel,
     eventHeight,
-    headerHeight: headerHeight != null ? headerHeight : MONTH_CELL_BAR_HEIGHT
+    headerHeight: headerHeight != null ? headerHeight : MONTH_CELL_BAR_HEIGHT,
+    isOneEventCalendar
   }));
   return /* @__PURE__ */ h$3("div", {
-    className: className2
+    className: className2,
+    style: isOneEventCalendar ? { height: "100%" } : {}
   }, dayEvents);
 });
 function useDayGridMonthEventMove({
@@ -14520,7 +14543,12 @@ function useCellContentAreaHeight(eventHeight) {
   }, [themeFooterHeight, themeHeaderHeight, eventHeight, visibleEventCount]);
   return { ref, cellContentAreaHeight };
 }
-function DayGridMonth({ dateMatrix = [], rowInfo = [], cellWidthMap = [] }) {
+function DayGridMonth({
+  dateMatrix = [],
+  rowInfo = [],
+  cellWidthMap = [],
+  isOneEventCalendar = false
+}) {
   const [gridContainer, setGridContainerRef] = useDOMNode();
   const calendar = useStore(calendarSelector);
   const { ref, cellContentAreaHeight } = useCellContentAreaHeight(MONTH_EVENT_HEIGHT);
@@ -14560,13 +14588,15 @@ function DayGridMonth({ dateMatrix = [], rowInfo = [], cellWidthMap = [] }) {
       gridDateEventModelMap,
       week,
       rowInfo,
-      contentAreaHeight: cellContentAreaHeight
+      contentAreaHeight: cellContentAreaHeight,
+      isOneEventCalendar
     }), /* @__PURE__ */ h$3(MonthEvents, {
       name: "month",
       events: uiModels,
       contentAreaHeight: cellContentAreaHeight,
       eventHeight: MONTH_EVENT_HEIGHT,
-      className: cls("weekday-events")
+      className: cls("weekday-events"),
+      isOneEventCalendar
     }), /* @__PURE__ */ h$3(GridSelectionByRow, {
       weekDates: week,
       narrowWeekend,
@@ -14619,7 +14649,8 @@ function Month$1() {
   }), /* @__PURE__ */ h$3(DayGridMonth, {
     dateMatrix,
     rowInfo,
-    cellWidthMap
+    cellWidthMap,
+    isOneEventCalendar: monthOptions.isOneEventCalendar
   }));
 }
 function useWeekViewState() {
