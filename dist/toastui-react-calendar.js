@@ -14085,6 +14085,18 @@ var __publicField = (obj, key, value) => {
     }
     return dayName.color;
   }
+  function getDateDisplay({
+    isOneEventCalendar,
+    date: date2,
+    renderDate
+  }) {
+    const thisMonth = renderDate.getMonth();
+    const isSameMonth2 = thisMonth === date2.getMonth();
+    if (isOneEventCalendar && !isSameMonth2) {
+      return "none";
+    }
+    return "inline-block";
+  }
   function useCellHeaderTheme() {
     const common = useCommonTheme();
     const month = useMonthTheme();
@@ -14094,7 +14106,8 @@ var __publicField = (obj, key, value) => {
     type = CellBarType.header,
     exceedCount = 0,
     date: date2,
-    onClickExceedCount
+    onClickExceedCount,
+    isOneEventCalendar
   }) {
     const { renderDate } = useStore(viewSelector);
     const [, getNow] = usePrimaryTimezone();
@@ -14112,7 +14125,10 @@ var __publicField = (obj, key, value) => {
       month: date2.getMonth(),
       ymd
     };
-    const gridCellDateStyle = { color: getDateColor({ date: date2, theme, isToday, renderDate }) };
+    const gridCellDateStyle = {
+      color: getDateColor({ date: date2, theme, isToday, renderDate }),
+      display: getDateDisplay({ date: date2, renderDate, isOneEventCalendar })
+    };
     const monthGridTemplate = `monthGrid${capitalize(type)}`;
     if (isNil(height)) {
       return null;
@@ -14261,12 +14277,14 @@ var __publicField = (obj, key, value) => {
       type: CellBarType.header,
       exceedCount,
       date: date2,
-      onClickExceedCount: onOpenSeeMorePopup
+      onClickExceedCount: onOpenSeeMorePopup,
+      isOneEventCalendar
     }), /* @__PURE__ */ h$3(CellHeader, {
       type: CellBarType.footer,
       exceedCount,
       date: date2,
-      onClickExceedCount: onOpenSeeMorePopup
+      onClickExceedCount: onOpenSeeMorePopup,
+      isOneEventCalendar
     }));
   }
   const GridRow = g$1(function GridRow2({

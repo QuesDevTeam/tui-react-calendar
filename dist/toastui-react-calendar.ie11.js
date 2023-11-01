@@ -5076,7 +5076,7 @@ var __publicField = (obj, key, value) => {
   }
   /*!
    * TOAST UI Calendar 2nd Edition
-   * @version 2.1.3 | Thu Aug 31 2023
+   * @version 2.1.3 | Wed Nov 01 2023
    * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
    * @license MIT
    */
@@ -24265,6 +24265,15 @@ var __publicField = (obj, key, value) => {
             }
             return dayName.color;
           }
+          function getDateDisplay(_ref2) {
+            var isOneEventCalendar = _ref2.isOneEventCalendar, date2 = _ref2.date, renderDate = _ref2.renderDate;
+            var thisMonth = renderDate.getMonth();
+            var isSameMonth2 = thisMonth === date2.getMonth();
+            if (isOneEventCalendar && !isSameMonth2) {
+              return "none";
+            }
+            return "inline-block";
+          }
           function useCellHeaderTheme() {
             var common = useCommonTheme();
             var month = useMonthTheme();
@@ -24275,8 +24284,8 @@ var __publicField = (obj, key, value) => {
               };
             }, [common, month]);
           }
-          function CellHeader(_ref2) {
-            var _ref2$type = _ref2.type, type = _ref2$type === void 0 ? CellBarType.header : _ref2$type, _ref2$exceedCount = _ref2.exceedCount, exceedCount = _ref2$exceedCount === void 0 ? 0 : _ref2$exceedCount, date2 = _ref2.date, onClickExceedCount = _ref2.onClickExceedCount;
+          function CellHeader(_ref3) {
+            var _ref3$type = _ref3.type, type = _ref3$type === void 0 ? CellBarType.header : _ref3$type, _ref3$exceedCount = _ref3.exceedCount, exceedCount = _ref3$exceedCount === void 0 ? 0 : _ref3$exceedCount, date2 = _ref3.date, onClickExceedCount = _ref3.onClickExceedCount, isOneEventCalendar = _ref3.isOneEventCalendar;
             var _useStore = useStore(viewSelector), renderDate = _useStore.renderDate;
             var _usePrimaryTimezone = usePrimaryTimezone(), _usePrimaryTimezone2 = cellHeader_slicedToArray(_usePrimaryTimezone, 2), getNow = _usePrimaryTimezone2[1];
             var theme = useCellHeaderTheme();
@@ -24299,6 +24308,11 @@ var __publicField = (obj, key, value) => {
                 theme,
                 isToday,
                 renderDate
+              }),
+              display: getDateDisplay({
+                date: date2,
+                renderDate,
+                isOneEventCalendar
               })
             };
             var monthGridTemplate = "monthGrid".concat(capitalize(type));
@@ -24532,12 +24546,14 @@ var __publicField = (obj, key, value) => {
               type: CellBarType.header,
               exceedCount,
               date: date2,
-              onClickExceedCount: onOpenSeeMorePopup
+              onClickExceedCount: onOpenSeeMorePopup,
+              isOneEventCalendar
             }), h(CellHeader, {
               type: CellBarType.footer,
               exceedCount,
               date: date2,
-              onClickExceedCount: onOpenSeeMorePopup
+              onClickExceedCount: onOpenSeeMorePopup,
+              isOneEventCalendar
             }));
           }
           function gridRow_slicedToArray(arr, i) {
