@@ -5076,7 +5076,7 @@ var __publicField = (obj, key, value) => {
   }
   /*!
    * TOAST UI Calendar 2nd Edition
-   * @version 2.1.3 | Wed Nov 01 2023
+   * @version 2.1.3 | Fri Nov 24 2023
    * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
    * @license MIT
    */
@@ -24165,27 +24165,6 @@ var __publicField = (obj, key, value) => {
               }) : null;
             }));
           }
-          function MoreEventsButton(_ref) {
-            var type = _ref.type, number = _ref.number, onClickButton = _ref.onClickButton, className2 = _ref.className;
-            var _useDispatch = useDispatch("dnd"), reset = _useDispatch.reset;
-            var handleMouseDown = function handleMouseDown2(e2) {
-              e2.stopPropagation();
-            };
-            var handleClick = function handleClick2() {
-              reset();
-              onClickButton();
-            };
-            var exceedButtonTemplate = "monthGrid".concat(type === CellBarType.header ? "Header" : "Footer", "Exceed");
-            return h("button", {
-              type: "button",
-              onMouseDown: handleMouseDown,
-              onClick: handleClick,
-              className: className2
-            }, h(Template, {
-              template: exceedButtonTemplate,
-              param: number
-            }));
-          }
           function cellHeader_slicedToArray(arr, i) {
             return cellHeader_arrayWithHoles(arr) || cellHeader_iterableToArrayLimit(arr, i) || cellHeader_unsupportedIterableToArray(arr, i) || cellHeader_nonIterableRest();
           }
@@ -24285,7 +24264,9 @@ var __publicField = (obj, key, value) => {
             }, [common, month]);
           }
           function CellHeader(_ref3) {
-            var _ref3$type = _ref3.type, type = _ref3$type === void 0 ? CellBarType.header : _ref3$type, _ref3$exceedCount = _ref3.exceedCount, exceedCount = _ref3$exceedCount === void 0 ? 0 : _ref3$exceedCount, date2 = _ref3.date, onClickExceedCount = _ref3.onClickExceedCount, isOneEventCalendar = _ref3.isOneEventCalendar;
+            var _ref3$type = _ref3.type, type = _ref3$type === void 0 ? CellBarType.header : _ref3$type, _ref3$exceedCount = _ref3.exceedCount, exceedCount = _ref3$exceedCount === void 0 ? 0 : _ref3$exceedCount, date2 = _ref3.date;
+            _ref3.onClickExceedCount;
+            var isOneEventCalendar = _ref3.isOneEventCalendar;
             var _useStore = useStore(viewSelector), renderDate = _useStore.renderDate;
             var _usePrimaryTimezone = usePrimaryTimezone(), _usePrimaryTimezone2 = cellHeader_slicedToArray(_usePrimaryTimezone, 2), getNow = _usePrimaryTimezone2[1];
             var theme = useCellHeaderTheme();
@@ -24330,12 +24311,7 @@ var __publicField = (obj, key, value) => {
             }, h(Template, {
               template: monthGridTemplate,
               param: templateParam
-            })), exceedCount ? h(MoreEventsButton, {
-              type,
-              number: exceedCount,
-              onClickButton: onClickExceedCount,
-              className: cls("grid-cell-more-events")
-            }) : null);
+            })));
           }
           function gridCell_slicedToArray(arr, i) {
             return gridCell_arrayWithHoles(arr) || gridCell_iterableToArrayLimit(arr, i) || gridCell_unsupportedIterableToArray(arr, i) || gridCell_nonIterableRest();
@@ -24556,6 +24532,35 @@ var __publicField = (obj, key, value) => {
               isOneEventCalendar
             }));
           }
+          function gridRow_ownKeys(object, enumerableOnly) {
+            var keys = Object.keys(object);
+            if (Object.getOwnPropertySymbols) {
+              var symbols = Object.getOwnPropertySymbols(object);
+              enumerableOnly && (symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+              })), keys.push.apply(keys, symbols);
+            }
+            return keys;
+          }
+          function gridRow_objectSpread(target) {
+            for (var i = 1; i < arguments.length; i++) {
+              var source = arguments[i] != null ? arguments[i] : {};
+              i % 2 ? gridRow_ownKeys(Object(source), true).forEach(function(key) {
+                gridRow_defineProperty(target, key, source[key]);
+              }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : gridRow_ownKeys(Object(source)).forEach(function(key) {
+                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+              });
+            }
+            return target;
+          }
+          function gridRow_defineProperty(obj, key, value) {
+            if (key in obj) {
+              Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+            } else {
+              obj[key] = value;
+            }
+            return obj;
+          }
           function gridRow_slicedToArray(arr, i) {
             return gridRow_arrayWithHoles(arr) || gridRow_iterableToArrayLimit(arr, i) || gridRow_unsupportedIterableToArray(arr, i) || gridRow_nonIterableRest();
           }
@@ -24616,7 +24621,7 @@ var __publicField = (obj, key, value) => {
               return arr;
           }
           var GridRow = compat_module_g(function GridRow2(_ref) {
-            var week = _ref.week, rowInfo = _ref.rowInfo, _ref$gridDateEventMod = _ref.gridDateEventModelMap, gridDateEventModelMap = _ref$gridDateEventMod === void 0 ? {} : _ref$gridDateEventMod, contentAreaHeight = _ref.contentAreaHeight, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend;
+            var week = _ref.week, rowInfo = _ref.rowInfo, _ref$gridDateEventMod = _ref.gridDateEventModelMap, gridDateEventModelMap = _ref$gridDateEventMod === void 0 ? {} : _ref$gridDateEventMod, contentAreaHeight = _ref.contentAreaHeight, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend, height = _ref.height;
             var _useDOMNode = useDOMNode(), _useDOMNode2 = gridRow_slicedToArray(_useDOMNode, 2), container = _useDOMNode2[0], containerRefCallback = _useDOMNode2[1];
             var border = useTheme(hooks_module_T(function(theme) {
               return theme.common.border;
@@ -24631,13 +24636,16 @@ var __publicField = (obj, key, value) => {
               var dayIndex = date2.getDay();
               var _rowInfo$columnIndex = rowInfo[columnIndex], width = _rowInfo$columnIndex.width, left = _rowInfo$columnIndex.left;
               var ymd = datetime_toFormat(toStartOfDay(date2), "YYYYMMDD");
+              var heightStyle = height ? {
+                height
+              } : {};
               return h(gridCell_GridCell, {
                 key: "daygrid-cell-".concat(dayIndex),
                 date: date2,
-                style: {
+                style: gridRow_objectSpread({
                   width: toPercent(width),
                   left: toPercent(left)
-                },
+                }, heightStyle),
                 parentContainer: container,
                 events: gridDateEventModelMap[ymd],
                 contentAreaHeight,
@@ -24661,10 +24669,9 @@ var __publicField = (obj, key, value) => {
             });
           }
           var MonthEvents = compat_module_g(function MonthEvents2(_ref) {
-            var contentAreaHeight = _ref.contentAreaHeight, _ref$eventHeight = _ref.eventHeight, eventHeight = _ref$eventHeight === void 0 ? EVENT_HEIGHT : _ref$eventHeight, events = _ref.events, name = _ref.name, className2 = _ref.className, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend;
+            var _ref$eventHeight = _ref.eventHeight, eventHeight = _ref$eventHeight === void 0 ? EVENT_HEIGHT : _ref$eventHeight, events = _ref.events, name = _ref.name, className2 = _ref.className, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend;
             var _useTheme = useTheme(monthGridCellSelector), headerHeight = _useTheme.headerHeight;
-            var parsedEventHeight = isOneEventCalendar ? 0 : eventHeight;
-            var dayEvents = events.filter(isWithinHeight(contentAreaHeight, parsedEventHeight + MONTH_EVENT_MARGIN_TOP)).map(function(uiModel) {
+            var dayEvents = events.map(function(uiModel) {
               return h(HorizontalEvent, {
                 key: "".concat(name, "-DayEvent-").concat(uiModel.cid()),
                 uiModel,
@@ -25043,6 +25050,20 @@ var __publicField = (obj, key, value) => {
               resizingWidth
             }));
           }
+          function dayGridMonth_toConsumableArray(arr) {
+            return dayGridMonth_arrayWithoutHoles(arr) || dayGridMonth_iterableToArray(arr) || dayGridMonth_unsupportedIterableToArray(arr) || dayGridMonth_nonIterableSpread();
+          }
+          function dayGridMonth_nonIterableSpread() {
+            throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+          }
+          function dayGridMonth_iterableToArray(iter) {
+            if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null)
+              return Array.from(iter);
+          }
+          function dayGridMonth_arrayWithoutHoles(arr) {
+            if (Array.isArray(arr))
+              return dayGridMonth_arrayLikeToArray(arr);
+          }
           function dayGridMonth_slicedToArray(arr, i) {
             return dayGridMonth_arrayWithHoles(arr) || dayGridMonth_iterableToArrayLimit(arr, i) || dayGridMonth_unsupportedIterableToArray(arr, i) || dayGridMonth_nonIterableRest();
           }
@@ -25159,21 +25180,34 @@ var __publicField = (obj, key, value) => {
               className: cls("month-daygrid")
             }, dateMatrix.map(function(week, rowIndex) {
               var _renderedEventUIModel = renderedEventUIModels[rowIndex], uiModels = _renderedEventUIModel.uiModels, gridDateEventModelMap = _renderedEventUIModel.gridDateEventModelMap;
+              var eventCountPerDay = Object.entries(gridDateEventModelMap).map(function(_ref3) {
+                var _ref4 = dayGridMonth_slicedToArray(_ref3, 2);
+                _ref4[0];
+                var value = _ref4[1];
+                return value.length;
+              });
+              var maxEventCountPerWeek = Math.max.apply(Math, dayGridMonth_toConsumableArray(eventCountPerDay)) + 1;
+              var weekHeight = maxEventCountPerWeek * MONTH_EVENT_HEIGHT;
               return h("div", {
                 key: "dayGrid-events-".concat(rowIndex),
                 className: cls("month-week-item"),
                 style: {
-                  height: toPercent(rowHeight)
+                  height: toPercent(rowHeight),
+                  overflow: "auto"
                 },
                 ref
               }, h("div", {
-                className: cls("weekday")
+                className: cls("weekday"),
+                style: {
+                  height: weekHeight
+                }
               }, h(GridRow, {
                 gridDateEventModelMap,
                 week,
                 rowInfo,
                 contentAreaHeight: cellContentAreaHeight,
-                isOneEventCalendar
+                isOneEventCalendar,
+                height: weekHeight
               }), h(MonthEvents, {
                 name: "month",
                 events: uiModels,
