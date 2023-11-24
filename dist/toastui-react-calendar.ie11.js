@@ -25199,7 +25199,8 @@ var __publicField = (obj, key, value) => {
               }, h("div", {
                 className: cls("weekday"),
                 style: {
-                  height: weekHeight
+                  height: weekHeight,
+                  minHeight: "100%"
                 }
               }, h(GridRow, {
                 gridDateEventModelMap,

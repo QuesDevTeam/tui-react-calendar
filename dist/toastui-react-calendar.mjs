@@ -14583,7 +14583,7 @@ function DayGridMonth({
       ref
     }, /* @__PURE__ */ h$3("div", {
       className: cls("weekday"),
-      style: { height: weekHeight }
+      style: { height: weekHeight, minHeight: "100%" }
     }, /* @__PURE__ */ h$3(GridRow, {
       gridDateEventModelMap,
       week,
