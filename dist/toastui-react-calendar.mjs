@@ -9483,7 +9483,11 @@ function positionUIModels(start, end, matrices, iteratee) {
         }
         const ymd = toFormat(uiModel.getStarts(), "YYYYMMDD");
         const dateLength = makeDateRange(toStartOfDay(uiModel.getStarts()), toEndOfDay(uiModel.getEnds()), MS_PER_DAY).length;
-        uiModel.top = index;
+        if (typeof uiModel.model.raw === "number") {
+          uiModel.top = uiModel.model.raw;
+        } else {
+          uiModel.top = index;
+        }
         uiModel.left = ymdListToRender.indexOf(ymd);
         uiModel.width = dateLength;
         iteratee == null ? void 0 : iteratee(uiModel);
