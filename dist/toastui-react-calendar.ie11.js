@@ -24623,14 +24623,8 @@ var __publicField = (obj, key, value) => {
           var GridRow = compat_module_g(function GridRow2(_ref) {
             var week = _ref.week, rowInfo = _ref.rowInfo, _ref$gridDateEventMod = _ref.gridDateEventModelMap, gridDateEventModelMap = _ref$gridDateEventMod === void 0 ? {} : _ref$gridDateEventMod, contentAreaHeight = _ref.contentAreaHeight, _ref$isOneEventCalend = _ref.isOneEventCalendar, isOneEventCalendar = _ref$isOneEventCalend === void 0 ? false : _ref$isOneEventCalend, height = _ref.height;
             var _useDOMNode = useDOMNode(), _useDOMNode2 = gridRow_slicedToArray(_useDOMNode, 2), container = _useDOMNode2[0], containerRefCallback = _useDOMNode2[1];
-            var border = useTheme(hooks_module_T(function(theme) {
-              return theme.common.border;
-            }, []));
             return h("div", {
               className: cls("weekday-grid"),
-              style: {
-                borderTop: border
-              },
               ref: containerRefCallback
             }, week.map(function(date2, columnIndex) {
               var dayIndex = date2.getDay();
@@ -25180,6 +25174,7 @@ var __publicField = (obj, key, value) => {
               className: cls("month-daygrid")
             }, dateMatrix.map(function(week, rowIndex) {
               var _renderedEventUIModel = renderedEventUIModels[rowIndex], uiModels = _renderedEventUIModel.uiModels, gridDateEventModelMap = _renderedEventUIModel.gridDateEventModelMap;
+              var border = DEFAULT_COMMON_THEME.border;
               var eventCountPerDay = Object.entries(gridDateEventModelMap).map(function(_ref3) {
                 var _ref4 = dayGridMonth_slicedToArray(_ref3, 2);
                 _ref4[0];
@@ -25193,7 +25188,8 @@ var __publicField = (obj, key, value) => {
                 className: cls("month-week-item"),
                 style: {
                   height: toPercent(rowHeight),
-                  overflow: "auto"
+                  overflow: "auto",
+                  borderTop: border
                 },
                 ref
               }, h("div", {
