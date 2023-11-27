@@ -14586,7 +14586,11 @@ var __publicField = (obj, key, value) => {
       return /* @__PURE__ */ h$3("div", {
         key: `dayGrid-events-${rowIndex}`,
         className: cls("month-week-item"),
-        style: { height: toPercent(rowHeight), overflow: "auto", borderTop: border },
+        style: {
+          height: toPercent(rowHeight),
+          overflow: isOneEventCalendar ? "hidden" : "auto",
+          borderTop: border
+        },
         ref
       }, /* @__PURE__ */ h$3("div", {
         className: cls("weekday"),
