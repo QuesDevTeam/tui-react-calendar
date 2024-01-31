@@ -5076,7 +5076,7 @@ var __publicField = (obj, key, value) => {
   }
   /*!
    * TOAST UI Calendar 2nd Edition
-   * @version 2.1.3 | Mon Nov 27 2023
+   * @version 2.1.3 | Wed Jan 31 2024
    * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
    * @license MIT
    */
@@ -17205,8 +17205,8 @@ var __publicField = (obj, key, value) => {
                   }
                   var ymd = datetime_toFormat(uiModel.getStarts(), "YYYYMMDD");
                   var dateLength = makeDateRange(toStartOfDay(uiModel.getStarts()), toEndOfDay(uiModel.getEnds()), MS_PER_DAY).length;
-                  if (typeof uiModel.model.raw === "number") {
-                    uiModel.top = uiModel.model.raw;
+                  if (uiModel.model.raw.order) {
+                    uiModel.top = uiModel.model.raw.order;
                   } else {
                     uiModel.top = index;
                   }
@@ -27525,7 +27525,7 @@ var __publicField = (obj, key, value) => {
       module2.exports = requireReactJsxDevRuntime_development();
     }
   })(jsxDevRuntime);
-  var _jsxFileName = "/Users/biio/dev/project/study/tui/tui.calendar/apps/react-calendar/src/index.tsx";
+  var _jsxFileName = "/Users/biio/dev/study/tui/tui.calendar/apps/react-calendar/src/index.tsx";
   const optionsProps = ["useFormPopup", "useDetailPopup", "isReadOnly", "week", "month", "gridSelection", "usageStatistics", "eventFilter", "timezone", "template"];
   const reactCalendarEventNames = ["onSelectDateTime", "onBeforeCreateEvent", "onBeforeUpdateEvent", "onBeforeDeleteEvent", "onAfterRenderEvent", "onClickDayName", "onClickEvent", "onClickMoreEventsBtn", "onClickTimezonesCollapseBtn"];
   class ToastUIReactCalendar extends React__default["default"].Component {

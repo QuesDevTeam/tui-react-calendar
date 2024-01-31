@@ -9483,8 +9483,8 @@ function positionUIModels(start, end, matrices, iteratee) {
         }
         const ymd = toFormat(uiModel.getStarts(), "YYYYMMDD");
         const dateLength = makeDateRange(toStartOfDay(uiModel.getStarts()), toEndOfDay(uiModel.getEnds()), MS_PER_DAY).length;
-        if (typeof uiModel.model.raw === "number") {
-          uiModel.top = uiModel.model.raw;
+        if (uiModel.model.raw.order) {
+          uiModel.top = uiModel.model.raw.order;
         } else {
           uiModel.top = index;
         }
@@ -16598,7 +16598,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function(target, source) 
 {
   jsxDevRuntime.exports = reactJsxDevRuntime_development;
 }
-var _jsxFileName = "/Users/biio/dev/project/study/tui/tui.calendar/apps/react-calendar/src/index.tsx";
+var _jsxFileName = "/Users/biio/dev/study/tui/tui.calendar/apps/react-calendar/src/index.tsx";
 const optionsProps = ["useFormPopup", "useDetailPopup", "isReadOnly", "week", "month", "gridSelection", "usageStatistics", "eventFilter", "timezone", "template"];
 const reactCalendarEventNames = ["onSelectDateTime", "onBeforeCreateEvent", "onBeforeUpdateEvent", "onBeforeDeleteEvent", "onAfterRenderEvent", "onClickDayName", "onClickEvent", "onClickMoreEventsBtn", "onClickTimezonesCollapseBtn"];
 class ToastUIReactCalendar extends React.Component {
