@@ -9485,12 +9485,13 @@ var __publicField = (obj, key, value) => {
     matrices.forEach((matrix) => {
       matrix.forEach((column) => {
         column.forEach((uiModel, index) => {
+          var _a;
           if (!uiModel) {
             return;
           }
           const ymd = toFormat(uiModel.getStarts(), "YYYYMMDD");
           const dateLength = makeDateRange(toStartOfDay(uiModel.getStarts()), toEndOfDay(uiModel.getEnds()), MS_PER_DAY).length;
-          if (uiModel.model.raw.order) {
+          if ((_a = uiModel.model.raw) == null ? void 0 : _a.order) {
             uiModel.top = uiModel.model.raw.order;
           } else {
             uiModel.top = index;
